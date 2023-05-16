@@ -51,12 +51,17 @@ class MainViewController: UIViewController {
     }
     
     @objc private func addButtonTap() {
-        let alertController = UIAlertController(title: "Test",
-                                   message: "Add new item",
-                                   preferredStyle: UIAlertController.Style.alert)
+        let alertController = UIAlertController(
+            title: NSLocalizedString("addAlertController_title", comment: ""),
+            message: NSLocalizedString("addAlertController_message", comment: ""),
+            preferredStyle: UIAlertController.Style.alert)
+        
         alertController.addTextField()
-        alertController.textFields?.first?.placeholder = "New item"
-        let addAction = UIAlertAction(title: "Add", style: .default) { [weak self] _ in
+        alertController.textFields?.first?.placeholder = NSLocalizedString("addAlertController_placeholder", comment: "")
+        
+        let addAction = UIAlertAction(
+            title: NSLocalizedString("addAlertController_addAction",comment: ""),
+            style: .default) { [weak self] _ in
             guard let field = alertController.textFields?.first,
                   let text = field.text,
                   !text.isEmpty else { return }
@@ -66,7 +71,9 @@ class MainViewController: UIViewController {
             }
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
+        let cancelAction = UIAlertAction(
+            title: NSLocalizedString("addAlertController_cancelAction",comment: ""),
+            style: .destructive)
         
         alertController.addAction(addAction)
         alertController.addAction(cancelAction)
@@ -75,29 +82,38 @@ class MainViewController: UIViewController {
     }
     
     private func editAction(at index: Int) -> UIAlertAction {
-        UIAlertAction(title: "Edit", style: .default) { [weak self] _ in
+        UIAlertAction(
+            title: NSLocalizedString("alertSheet_editAction", comment: ""),
+            style: .default) { [weak self] _ in
             guard let self else { return }
-            let editActionAlert = UIAlertController(title: "Edit the item",
-                                                    message: nil,
-                                                    preferredStyle: .alert)
+            let editActionAlert = UIAlertController(
+                title: NSLocalizedString("editAlertController_title",comment: ""),
+                message: nil,
+                preferredStyle: .alert)
             editActionAlert.addTextField()
             editActionAlert.textFields?.first?.text = self.viewModel.items[index].title
             
-            let confirmEdit = UIAlertAction(title: "Confirm", style: .default) { [weak self] _ in
+            let confirmEdit = UIAlertAction(
+                title: NSLocalizedString("editAlertController_confirmAction", comment: ""),
+                style: .default) { [weak self] _ in
                 guard let self,
                       let text = editActionAlert.textFields?.first?.text,
                       !text.isEmpty else { return }
                 self.viewModel.updateItem(at: index, newTitle: text)
             }
             editActionAlert.addAction(confirmEdit)
-            editActionAlert.addAction(UIAlertAction(title: "Cancel", style: .destructive))
+            editActionAlert.addAction(UIAlertAction(
+                title: NSLocalizedString("editAlertController_cancelAction", comment: ""),
+                style: .destructive))
             
             self.present(editActionAlert, animated: true)
         }
     }
     
     private func deleteAction(at index: Int) -> UIAlertAction {
-        UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
+        UIAlertAction(
+            title: NSLocalizedString("alertSheet_deleteAction", comment: ""),
+            style: .destructive) { [weak self] _ in
             DispatchQueue.main.async {
                 self?.viewModel.deleteItem(at: index)
             }
@@ -143,12 +159,15 @@ extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let alertSheet = UIAlertController(title: "Choose an action",
-                                           message: nil,
-                                           preferredStyle: .actionSheet)
+        let alertSheet = UIAlertController(
+            title: NSLocalizedString("alertSheet_title", comment: ""),
+            message: nil,
+            preferredStyle: .actionSheet)
         alertSheet.addAction(editAction(at: indexPath.row))
         alertSheet.addAction(deleteAction(at: indexPath.row))
-        alertSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alertSheet.addAction(UIAlertAction(
+            title: NSLocalizedString("alertSheet_cancelAction", comment: ""),
+            style: .cancel))
         present(alertSheet, animated: true)
     }
 }

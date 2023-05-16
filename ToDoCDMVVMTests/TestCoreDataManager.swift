@@ -8,7 +8,7 @@
 import CoreData
 import ToDoCDMVVM
 
-final class TestCoreDataStack: CoreDataManager {
+final class TestCoreDataManager: CoreDataManager {
     override init() {
         super.init()
         
