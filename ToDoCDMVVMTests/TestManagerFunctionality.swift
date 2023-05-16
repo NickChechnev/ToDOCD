@@ -6,30 +6,61 @@
 //
 
 import XCTest
+@testable import ToDoCDMVVM
+import CoreData
 
 final class TestManagerFunctionality: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    var coreDataManager: TestCoreDataManager!
+    
+    override func setUp() {
+        super.setUp()
+        coreDataManager = TestCoreDataManager()
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    override func tearDown() {
+        super.tearDown()
+        coreDataManager = nil
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    
+    func testCreatingItem() {
+        let item = coreDataManager.createItem(title: "Test")
+        
+        XCTAssertNotNil(item, "Item should not be nil")
+        XCTAssert(item.title == "Test")
+        XCTAssertNotNil(item.dateCreated, "Date should not be nil")
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    
+    func testUpdatingItem() {
+        let item = coreDataManager.createItem(title: "Test")
+        let updatedItem = item
+        coreDataManager.updateItem(item: updatedItem, newTitle: "Test2")
+        
+        XCTAssertNotNil(updatedItem, "Item should not be nil")
+        XCTAssert(updatedItem.title == "Test2")
+        XCTAssert(item.dateCreated == updatedItem.dateCreated)
+        XCTAssertNotNil(item.dateCreated, "Date should not be nil")
+    }
+    
+    func testFetchingItems() {
+        let itemsArray = coreDataManager.fetchItems()
+        
+        XCTAssertNotNil(itemsArray, "Array should not be nil")
+        XCTAssert(itemsArray == [Item]())
+    }
+    
+    func testDeletingItem() {
+        let itemToDelete = coreDataManager.createItem(title: "item")
+        
+        var itemsArray = [Item]()
+        itemsArray = coreDataManager.fetchItems()
+        
+        XCTAssertTrue(itemsArray.count == 1)
+    
+        coreDataManager.deleteItem(item: itemToDelete)
+        
+        itemsArray = coreDataManager.fetchItems()
+        
+        XCTAssertTrue(itemsArray.isEmpty)
     }
 
 }
