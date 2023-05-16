@@ -24,16 +24,16 @@ final class CoreDataManager {
         persistentContainer.viewContext
     }
     
-    func createItem(title: String) {
+    func createItem(title: String) -> Item {
         let newItem = Item(context: managedObjectContext)
         newItem.title = title
+        newItem.dateCreated = Date().formatted(date: .numeric, time: .shortened)
         do {
             try managedObjectContext.save()
-            fetchItems()
-        }
-        catch {
+        } catch {
             print("Error creating new item")
         }
+        return newItem
     }
     
     func fetchItems() -> [Item] {
@@ -41,9 +41,7 @@ final class CoreDataManager {
             let fetchRequest = NSFetchRequest<Item>(entityName: "Item")
             let items = try managedObjectContext.fetch(fetchRequest)
             return items
-            
-        }
-        catch {
+        } catch {
             print("Error fetching items list")
             return []
         }
@@ -54,9 +52,7 @@ final class CoreDataManager {
         
         do {
             try managedObjectContext.save()
-            
-        }
-        catch {
+        } catch {
             print("Error deleting item")
         }
     }
@@ -66,9 +62,7 @@ final class CoreDataManager {
         
         do {
             try managedObjectContext.save()
-            
-        }
-        catch {
+        } catch {
             print("Error updating item")
         }
     }
