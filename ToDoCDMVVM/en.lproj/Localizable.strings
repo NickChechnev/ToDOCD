@@ -1,0 +1,28 @@
+/* 
+  Localizable.strings
+  ToDoCDMVVM
+
+  Created by Никита Чечнев on 16.05.2023.
+  
+*/
+//Alert sheet localization strings
+
+"alertSheet_title" = "Choose an action";
+"alertSheet_editAction" = "Edit";
+"alertSheet_deleteAction" = "Delete";
+"alertSheet_cancelAction" = "Cancel";
+
+//Edit task alert controller localization strings
+
+"editAlertController_title" = "Edit the task";
+"editAlertController_confirmAction" = "Confirm";
+"editAlertController_cancelAction" = "Cancel";
+
+//Add task alert controller localization strings
+
+"addAlertController_title" = "Add a new task";
+"addAlertController_message" = "Enter new task's title";
+"addAlertController_placeholder" = "New task";
+"addAlertController_addAction" = "Add";
+"addAlertController_cancelAction" = "Cancel";
+
